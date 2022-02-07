@@ -20,6 +20,7 @@ func ClusterProxyAddon(m *operatorsv1.MultiClusterHub, overrides map[string]stri
 			"hubconfig": map[string]interface{}{
 				"replicaCount": utils.DefaultReplicaCount(m),
 				"nodeSelector": m.Spec.NodeSelector,
+				"tolerations":  m.Spec.Tolerations,
 			},
 			"global": map[string]interface{}{
 				"imageOverrides": overrides,

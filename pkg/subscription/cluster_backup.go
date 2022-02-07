@@ -18,6 +18,7 @@ func ClusterBackup(m *operatorsv1.MultiClusterHub, overrides map[string]string) 
 			"hubconfig": map[string]interface{}{
 				"replicaCount": utils.DefaultReplicaCount(m),
 				"nodeSelector": m.Spec.NodeSelector,
+				"tolerations":  m.Spec.Tolerations,
 				"name":         m.Name,
 				"namespace":    m.Namespace,
 			},

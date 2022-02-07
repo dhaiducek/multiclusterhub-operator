@@ -43,13 +43,16 @@ func selectorLabels() map[string]string {
 	}
 }
 
-func tolerations() []corev1.Toleration {
-	return []corev1.Toleration{
-		{
-			Effect:   "NoSchedule",
-			Key:      "node-role.kubernetes.io/infra",
-			Operator: "Exists",
-		},
+func tolerations(m *operatorsv1.MultiClusterHub) []corev1.Toleration {
+	if len(m.Spec.Tolerations) == 0 {
+		return []corev1.Toleration{
+			{
+				Effect:   "NoSchedule",
+				Key:      "node-role.kubernetes.io/infra",
+				Operator: "Exists",
+			},
+		}
+		return m.Spec.Tolerations
 	}
 }
 
@@ -130,7 +133,7 @@ func Deployment(m *operatorsv1.MultiClusterHub, overrides map[string]string) *ap
 					}},
 					ImagePullSecrets: []corev1.LocalObjectReference{{Name: m.Spec.ImagePullSecret}},
 					NodeSelector:     m.Spec.NodeSelector,
-					Tolerations:      tolerations(),
+					Tolerations:      tolerations(m),
 					Affinity:         utils.DistributePods("ocm-antiaffinity-selector", HelmRepoName),
 					// ServiceAccountName: "default",
 				},

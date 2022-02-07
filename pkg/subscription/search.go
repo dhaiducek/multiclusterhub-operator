@@ -23,6 +23,7 @@ func Search(m *operatorsv1.MultiClusterHub, overrides map[string]string) *unstru
 			"hubconfig": map[string]interface{}{
 				"replicaCount": utils.DefaultReplicaCount(m),
 				"nodeSelector": m.Spec.NodeSelector,
+				"tolerations":  m.Spec.Tolerations,
 			},
 		},
 	}
